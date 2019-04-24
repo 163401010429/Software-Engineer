@@ -5,10 +5,10 @@ using namespace std;
 void BubbleSort(int a[],int n)
 {
     int i,j,exchange,t;
-    for (i=0; i<n-1; i++)
+    for (i=0; i<n-1; i++)//n个数需要n-1趟排序
     {
         exchange = 0;
-        for (j=n-1; j>i; j--)
+        for (j=n-1; j>i; j--)//比较找出关键字最小的元素
         {
             if (a[j]<a[j-1])
             {
@@ -18,7 +18,7 @@ void BubbleSort(int a[],int n)
                 exchange = 1;
             }
         }
-        if (exchange == 0)
+        if (exchange == 0)//该a[]数组已经有序
         {
             return ;
         }
@@ -29,17 +29,17 @@ void SelectSort(int a[],int n)
 {
     int i,j,k,t;
 
-    for (i=0; i<n-1; i++)
+    for (i=0; i<n-1; i++)//n个数需要n-1个排序
     {
         k = i;
-        for (j=i+1; j<n; j++)
+        for (j=i+1; j<n; j++)//从无序区中选择最小元素,用k指出最小元素的下标
         {
             if (a[j]<a[k])
             {
-                k = j;
+                k = j;//用k指出每趟在无序区的最小元素
             }
         }
-        if (k != i)
+        if (k != i)//将a[k]与a[i]交换
         {
             t = a[i];
             a[i] = a[k];
@@ -54,10 +54,10 @@ void InsertSort(int a[],int n)
     for (i=1; i<n; i++)
     {
         t = a[i];
-        j = i-1;
+        j = i-1;//j指向有序去最后一个元素
         while (j>=0 && t<a[j])
         {
-            a[j+1] = a[j];
+            a[j+1] = a[j];//元素后移，直到找到有序区元素a[j]<t或者j<0时退出循环
             j--;
         }
         a[j+1] = t;
@@ -68,11 +68,11 @@ void ShellSort(int a[],int n)
 {
     int i,j,d,t;
 
-    d = n/2;
+    d = n/2;//增量置初值
 
-    while (d > 0)
+    while (d > 0)//循环到d=1为止
     {
-        for (i=d; i<n; i++)
+        for (i=d; i<n; i++)//对所有相隔d位置的元素进行排序
         {
             t = a[i];
             j = i-d;
@@ -80,51 +80,51 @@ void ShellSort(int a[],int n)
             {
                 a[j+d] = a[j];
             }
-            a[j+d] = t;
+            a[j+d] = t;//插入元素
         }
-        d = d/2;
+        d = d/2;//增量减小
     }
 }
 
-void Sift(int a[],int low,int high)
+void Sift(int a[],int low,int high)//调整成堆
 {
-    int i=low,j=2*i,t=a[i];
+    int i=low,j=2*i,t=a[i];//a[j]是a[i]的左孩子
 
     while (j <= high)
     {
-        if (j<high && a[j]<a[j+1])
+        if (j<high && a[j]<a[j+1])//若右孩子较大，把j指向右孩子
         {
             j++;
         }
 
-        if (t < a[j])
+        if (t < a[j])//若双亲关键字小于左孩子，需要调整
         {
-            a[i] = a[j];
-            i = j;
+            a[i] = a[j];//将a[i]调整到双亲结点位置上
+            i = j;//修改i和j的值，以便继续向下筛选
             j = 2*i;
         }
         else
         {
-            break;
+            break;//若双亲关键字大于两孩子关键字，筛选结束
         }
     }
-   a[i] = t;
+   a[i] = t;//被筛选节点的值放入最终位置
 }
 
 void HeapSort(int a[],int n)
 {
     int i,t;
-    for (i=n/2; i>=0; i--)
+    for (i=n/2; i>=0; i--)//循环建立初始堆
     {
         Sift(a,i,n-1);
     }
 
-    for (i=n-1; i>=1; i--)
+    for (i=n-1; i>=1; i--)//进行n-1次循环，完成堆排序
     {
-        t = a[0];
+        t = a[0];//将第一个元素同当前区间内的a[0]对换
         a[0] = a[i];
         a[i] = t;
-        Sift(a,0,i-1);
+        Sift(a,0,i-1);//筛选a[0]结点，得到i-1个结点的堆
     }
 }
 
@@ -132,16 +132,18 @@ int main()
 {
     int a[MaxSize];
     int i,n;
+    //数据的输入
     cin>>n;
     for (i=0; i<n; i++)
     {
         cin>>a[i];
     }
+    //排序算法的调用
     BubbleSort(a,n);
     HeapSort(a,n);
     InsertSort(a,n);
     ShellSort(a,n);
-
+    //数据的输出
     for (i=0; i<n; i++)
     {
         cout << a[i] <<" ";
