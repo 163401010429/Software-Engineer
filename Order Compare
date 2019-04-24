@@ -1,0 +1,150 @@
+#include <iostream>
+#define MaxSize 50
+using namespace std;
+
+void BubbleSort(int a[],int n)
+{
+    int i,j,exchange,t;
+    for (i=0; i<n-1; i++)
+    {
+        exchange = 0;
+        for (j=n-1; j>i; j--)
+        {
+            if (a[j]<a[j-1])
+            {
+                t = a[j];
+                a[j] = a[j-1];
+                a[j-1] = t;
+                exchange = 1;
+            }
+        }
+        if (exchange == 0)
+        {
+            return ;
+        }
+    }
+}
+
+void SelectSort(int a[],int n)
+{
+    int i,j,k,t;
+
+    for (i=0; i<n-1; i++)
+    {
+        k = i;
+        for (j=i+1; j<n; j++)
+        {
+            if (a[j]<a[k])
+            {
+                k = j;
+            }
+        }
+        if (k != i)
+        {
+            t = a[i];
+            a[i] = a[k];
+            a[k] = t;
+        }
+    }
+}
+
+void InsertSort(int a[],int n)
+{
+    int i,j,t;
+    for (i=1; i<n; i++)
+    {
+        t = a[i];
+        j = i-1;
+        while (j>=0 && t<a[j])
+        {
+            a[j+1] = a[j];
+            j--;
+        }
+        a[j+1] = t;
+    }
+}
+
+void ShellSort(int a[],int n)
+{
+    int i,j,d,t;
+
+    d = n/2;
+
+    while (d > 0)
+    {
+        for (i=d; i<n; i++)
+        {
+            t = a[i];
+            j = i-d;
+            while (j>=0 && a[j]>t)
+            {
+                a[j+d] = a[j];
+            }
+            a[j+d] = t;
+        }
+        d = d/2;
+    }
+}
+
+void Sift(int a[],int low,int high)
+{
+    int i=low,j=2*i,t=a[i];
+
+    while (j <= high)
+    {
+        if (j<high && a[j]<a[j+1])
+        {
+            j++;
+        }
+
+        if (t < a[j])
+        {
+            a[i] = a[j];
+            i = j;
+            j = 2*i;
+        }
+        else
+        {
+            break;
+        }
+    }
+   a[i] = t;
+}
+
+void HeapSort(int a[],int n)
+{
+    int i,t;
+    for (i=n/2; i>=0; i--)
+    {
+        Sift(a,i,n-1);
+    }
+
+    for (i=n-1; i>=1; i--)
+    {
+        t = a[0];
+        a[0] = a[i];
+        a[i] = t;
+        Sift(a,0,i-1);
+    }
+}
+
+int main()
+{
+    int a[MaxSize];
+    int i,n;
+    cin>>n;
+    for (i=0; i<n; i++)
+    {
+        cin>>a[i];
+    }
+    BubbleSort(a,n);
+    HeapSort(a,n);
+    InsertSort(a,n);
+    ShellSort(a,n);
+
+    for (i=0; i<n; i++)
+    {
+        cout << a[i] <<" ";
+    }
+    return 0;
+}
